@@ -1,0 +1,49 @@
+# Parent class for all employees
+class Employee:
+    def __init__(self, name, id):
+        self.name = name
+        self.id = id
+        
+    def display_employee_details(self):
+        print("Name:", self.name)
+        print("ID:", self.id)
+
+# Class for salaried employees
+class SalaryEmployee(Employee):
+    def __init__(self, name, id, annual_salary):
+        super().__init__(name, id)
+        self.annual_salary = annual_salary
+        
+    def calculate_payroll(self):
+        return self.annual_salary / 12
+
+# Class for hourly employees
+class HourlyEmployee(Employee):
+    def __init__(self, name, id, hourly_rate, hours_worked):
+        super().__init__(name, id)
+        self.hourly_rate = hourly_rate
+        self.hours_worked = hours_worked
+        
+    def calculate_payroll(self):
+        return self.hourly_rate * self.hours_worked
+
+# Class for commissioned employees
+class CommissionEmployee(SalaryEmployee):
+    def __init__(self, name, id, annual_salary, commission_rate, sales):
+        super().__init__(name, id, annual_salary)
+        self.commission_rate = commission_rate
+        self.sales = sales
+        
+    def calculate_payroll(self):
+        commission = self.commission_rate * self.sales
+        return super().calculate_payroll() + commission
+
+# Test program
+employees = [SalaryEmployee("John Smith", "001", 50000),
+             HourlyEmployee("Mary Johnson", "002", 25, 160),
+             CommissionEmployee("Bob Williams", "003", 60000, 0.1, 50000)]
+
+for employee in employees:
+    employee.display_employee_details()
+    payroll = employee.calculate_payroll()
+    print("Payroll: ksh", payroll)
